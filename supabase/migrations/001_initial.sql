@@ -155,10 +155,46 @@ CREATE TRIGGER profiles_updated_at
   FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
 
 -- =============================================
--- Seed: starter neighborhoods
+-- Seed: Columbus, OH neighborhoods
 -- =============================================
 INSERT INTO neighborhoods (name, city, state, slug) VALUES
-  ('Downtown', 'Portland', 'OR', 'portland-downtown'),
-  ('Northeast', 'Portland', 'OR', 'portland-northeast'),
-  ('Southeast', 'Portland', 'OR', 'portland-southeast'),
-  ('North', 'Portland', 'OR', 'portland-north');
+  ('Downtown Columbus',   'Columbus', 'OH', 'columbus-downtown'),
+  ('North Columbus',      'Columbus', 'OH', 'columbus-north'),
+  ('South Columbus',      'Columbus', 'OH', 'columbus-south'),
+  ('East Columbus',       'Columbus', 'OH', 'columbus-east'),
+  ('West Columbus',       'Columbus', 'OH', 'columbus-west'),
+  ('Short North',         'Columbus', 'OH', 'short-north'),
+  ('German Village',      'Columbus', 'OH', 'german-village'),
+  ('Victorian Village',   'Columbus', 'OH', 'victorian-village'),
+  ('Italian Village',     'Columbus', 'OH', 'italian-village'),
+  ('Clintonville',        'Columbus', 'OH', 'clintonville'),
+  ('Grandview',           'Columbus', 'OH', 'grandview'),
+  ('Upper Arlington',     'Columbus', 'OH', 'upper-arlington'),
+  ('Hilltop',             'Columbus', 'OH', 'hilltop'),
+  ('Franklinton',         'Columbus', 'OH', 'franklinton'),
+  ('Westgate',            'Columbus', 'OH', 'westgate'),
+  ('Galloway',            'Columbus', 'OH', 'galloway'),
+  ('Linden',              'Columbus', 'OH', 'linden'),
+  ('University District', 'Columbus', 'OH', 'university-district'),
+  ('Weinland Park',       'Columbus', 'OH', 'weinland-park'),
+  ('Harrison West',       'Columbus', 'OH', 'harrison-west'),
+  ('Old Town East',       'Columbus', 'OH', 'old-town-east'),
+  ('Merion Village',      'Columbus', 'OH', 'merion-village'),
+  ('Olde Towne East',     'Columbus', 'OH', 'olde-towne-east'),
+  ('Milo-Grogan',         'Columbus', 'OH', 'milo-grogan'),
+  ('Bexley',              'Columbus', 'OH', 'bexley'),
+  ('Gahanna',             'Columbus', 'OH', 'gahanna'),
+  ('Blacklick',           'Columbus', 'OH', 'blacklick'),
+  ('Reynoldsburg',        'Columbus', 'OH', 'reynoldsburg'),
+  ('Whitehall',           'Columbus', 'OH', 'whitehall'),
+  ('Dublin',              'Columbus', 'OH', 'dublin'),
+  ('Powell',              'Columbus', 'OH', 'powell'),
+  ('Worthington',         'Columbus', 'OH', 'worthington'),
+  ('Westerville',         'Columbus', 'OH', 'westerville'),
+  ('New Albany',          'Columbus', 'OH', 'new-albany'),
+  ('Easton',              'Columbus', 'OH', 'easton'),
+  ('Grove City',          'Columbus', 'OH', 'grove-city'),
+  ('West Jefferson',      'Columbus', 'OH', 'west-jefferson'),
+  ('Pickerington',        'Columbus', 'OH', 'pickerington'),
+  ('Obetz',               'Columbus', 'OH', 'obetz')
+ON CONFLICT (slug) DO NOTHING;

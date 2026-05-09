@@ -9,6 +9,7 @@ import { OfferHelpForm } from '@/components/post/OfferHelpForm'
 import { ArrowLeft } from 'lucide-react'
 import { formatDistanceToNow, getInitials } from '@/lib/utils'
 import type { Post, Offer } from '@/lib/supabase/types'
+import { DeletePostButton } from '@/components/post/DeletePostButton'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -99,7 +100,7 @@ export default async function PostDetailPage({
         )}
 
         {/* Author + meta */}
-        <div className="flex items-center gap-3 pt-1 border-t border-border">
+        <div className="flex items-center justify-between gap-3 pt-1 border-t border-border">
           <Link
             href={`/profile/${post.author_id}`}
             className="flex items-center gap-2.5 hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg"
@@ -119,6 +120,7 @@ export default async function PostDetailPage({
               </div>
             </div>
           </Link>
+          {isPostAuthor && <DeletePostButton postId={post.id} />}
         </div>
       </article>
 
