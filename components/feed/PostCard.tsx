@@ -18,7 +18,7 @@ export function PostCard({ post }: PostCardProps) {
     .toUpperCase() ?? '??'
 
   return (
-    <article className="bg-card rounded-2xl border border-border">
+    <article className="rounded-2xl border border-border/90 bg-card/90 transition-colors hover:border-primary/25">
       <Link
         href={`/post/${post.id}`}
         className="block p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-2xl"
@@ -35,12 +35,12 @@ export function PostCard({ post }: PostCardProps) {
         </div>
 
         {/* Title */}
-        <h2 className="text-base font-semibold text-foreground leading-snug mb-1.5">
+        <h2 className="text-lg font-semibold text-foreground leading-snug mb-1.5">
           {post.title}
         </h2>
 
         {/* Description */}
-        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-3">
+        <p className="text-sm text-foreground/75 leading-relaxed line-clamp-3 mb-3">
           {post.description}
         </p>
 

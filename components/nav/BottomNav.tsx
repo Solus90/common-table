@@ -17,7 +17,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 bg-warm-surface border-t border-border md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-40 bg-warm-surface/95 backdrop-blur supports-backdrop-filter:bg-warm-surface/85 border-t border-border md:hidden"
       aria-label="Main navigation"
     >
       <div className="max-w-2xl mx-auto px-2">
@@ -47,7 +47,7 @@ export function BottomNav() {
                     className={cn(
                       'transition-all',
                       isAction ? 'h-6 w-6' : 'h-5 w-5',
-                      isAction && 'fill-primary/10'
+                      isAction && 'rounded-full bg-primary/10 p-1'
                     )}
                     aria-hidden="true"
                     strokeWidth={isActive || isAction ? 2 : 1.5}

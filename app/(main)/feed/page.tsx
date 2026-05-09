@@ -128,7 +128,10 @@ export default async function FeedPage({ searchParams }: { searchParams: SearchP
     <div>
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h1 className="text-xl font-semibold text-foreground">Community Feed</h1>
+          <h1 className="text-2xl font-semibold text-foreground">Community Feed</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Practical help from people nearby.
+          </p>
         </div>
         <Link
           href="/post/new"

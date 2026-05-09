@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Fraunces, Geist_Mono, Nunito_Sans } from 'next/font/google'
 import './globals.css'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
@@ -7,8 +7,13 @@ const siteName = 'Common Table'
 const siteDescription = 'Hyperlocal mutual aid for your neighborhood - share, give, and support one another.'
 const socialImage = '/icon.png'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const bodySans = Nunito_Sans({
+  variable: '--font-body-sans',
+  subsets: ['latin'],
+})
+
+const headingSerif = Fraunces({
+  variable: '--font-heading-serif',
   subsets: ['latin'],
 })
 
@@ -56,7 +61,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#3D6B4F',
+  themeColor: '#4F4A8A',
   width: 'device-width',
   initialScale: 1,
 }
@@ -69,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${bodySans.variable} ${headingSerif.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <script

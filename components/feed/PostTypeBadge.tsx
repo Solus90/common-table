@@ -11,7 +11,7 @@ export function PostTypeBadge({ type, className }: PostTypeBadgeProps) {
     <span
       aria-label={`Post type: ${type === 'GIVE' ? 'Give' : 'Need'}`}
       className={cn(
-        'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide',
+        'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold',
         type === 'GIVE'
           ? 'bg-give text-give-foreground'
           : 'bg-need text-need-foreground',
