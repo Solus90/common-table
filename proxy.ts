@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-const PROTECTED_PATHS = ['/post/new', '/profile']
+const PUBLIC_PATHS = ['/login', '/auth']
 
 export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
@@ -31,14 +31,24 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  const isProtected = PROTECTED_PATHS.some(
+  const isPublic = PUBLIC_PATHS.some(
     (p) => pathname === p || pathname.startsWith(p + '/')
   )
 
-  if (isProtected && !user) {
+  if (!isPublic && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    url.searchParams.set('next', pathname)
+    // Only preserve ?next= for non-root paths worth returning to
+    if (pathname !== '/' && pathname !== '/feed') {
+      url.searchParams.set('next', pathname)
+    }
+    return NextResponse.redirect(url)
+  }
+
+  // Already logged in, don't show login page
+  if (isPublic && pathname === '/login' && user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/feed'
     return NextResponse.redirect(url)
   }
 
@@ -47,6 +57,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|icons|manifest.json|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|icons|manifest.json|icon.png|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
