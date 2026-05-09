@@ -4,9 +4,10 @@ import { Sprout } from 'lucide-react'
 
 interface FeedListProps {
   posts: Post[]
+  emptyMessage?: string
 }
 
-export function FeedList({ posts }: FeedListProps) {
+export function FeedList({ posts, emptyMessage }: FeedListProps) {
   if (posts.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -14,11 +15,10 @@ export function FeedList({ posts }: FeedListProps) {
           <Sprout className="h-7 w-7 text-primary" aria-hidden="true" />
         </div>
         <h2 className="text-base font-semibold text-foreground mb-2">
-          The table is set
+          {emptyMessage ? 'No results' : 'The table is set'}
         </h2>
         <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
-          Your neighborhood hasn't posted anything yet. Be the first to share
-          something or ask for help.
+          {emptyMessage ?? "Your neighborhood hasn't posted anything yet. Be the first to share something or ask for help."}
         </p>
       </div>
     )

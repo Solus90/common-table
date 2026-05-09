@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { FeedList } from '@/components/feed/FeedList'
+import { FeedFilters } from '@/components/feed/FeedFilters'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Suspense } from 'react'
 import type { Post } from '@/lib/supabase/types'
@@ -10,10 +11,12 @@ export const metadata = {
   title: 'Feed — Common Table',
 }
 
-async function PostsFeed() {
+type SearchParams = Promise<{ q?: string; type?: string }>
+
+async function PostsFeed({ q, type }: { q: string; type: string }) {
   const supabase = await createClient()
 
-  const { data: posts, error } = await supabase
+  let query = supabase
     .from('posts')
     .select(`
       *,
@@ -23,6 +26,16 @@ async function PostsFeed() {
     .order('created_at', { ascending: false })
     .limit(50)
 
+  if (type === 'GIVE' || type === 'NEED') {
+    query = query.eq('type', type)
+  }
+
+  if (q) {
+    query = query.or(`title.ilike.%${q}%,description.ilike.%${q}%`)
+  }
+
+  const { data: posts, error } = await query
+
   if (error) {
     return (
       <div className="rounded-2xl bg-destructive/10 p-4 text-sm text-destructive" role="alert">
@@ -31,7 +44,16 @@ async function PostsFeed() {
     )
   }
 
-  return <FeedList posts={(posts as unknown as Post[]) ?? []} />
+  return (
+    <FeedList
+      posts={(posts as unknown as Post[]) ?? []}
+      emptyMessage={
+        q || type
+          ? 'No posts match your search. Try different words or clear the filter.'
+          : undefined
+      }
+    />
+  )
 }
 
 function FeedSkeleton() {
@@ -53,7 +75,13 @@ function FeedSkeleton() {
   )
 }
 
-export default function FeedPage() {
+export default async function FeedPage({
+  searchParams,
+}: {
+  searchParams: SearchParams
+}) {
+  const { q = '', type = '' } = await searchParams
+
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
@@ -72,8 +100,11 @@ export default function FeedPage() {
           Post
         </Link>
       </div>
-      <Suspense fallback={<FeedSkeleton />}>
-        <PostsFeed />
+
+      <FeedFilters />
+
+      <Suspense fallback={<FeedSkeleton />} key={`${q}-${type}`}>
+        <PostsFeed q={q} type={type} />
       </Suspense>
     </div>
   )

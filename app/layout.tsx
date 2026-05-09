@@ -16,10 +16,6 @@ export const metadata: Metadata = {
   title: 'Common Table',
   description: 'Hyperlocal mutual aid for your neighborhood — share, give, and support one another.',
   manifest: '/manifest.json',
-  icons: {
-    icon: '/logo.png',
-    apple: '/icons/icon-192.png',
-  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
