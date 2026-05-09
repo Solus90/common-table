@@ -28,18 +28,10 @@ export default async function LoginPage({
   const { next, error } = await searchParams
 
   return (
-    <main id="main-content" tabIndex={-1} className="min-h-screen bg-background">
-      <div className="relative mx-auto flex min-h-screen w-full max-w-4xl items-center px-6 py-12">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -left-16 top-8 h-48 w-48 rounded-full bg-primary/10 blur-2xl"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-12 bottom-8 h-44 w-44 rounded-full bg-need/15 blur-2xl"
-        />
-        <div className="relative grid w-full gap-9 md:grid-cols-[1.15fr_0.85fr] md:items-center">
-          <section>
+    <main id="main-content" tabIndex={-1} className="min-h-dvh overflow-x-hidden bg-background">
+      <div className="relative mx-auto flex min-h-dvh w-full max-w-4xl items-center overflow-x-hidden px-4 py-6 md:px-6 md:min-h-screen md:py-12">
+        <div className="relative grid w-full min-w-0 gap-5 md:gap-9 md:grid-cols-[1.15fr_0.85fr] md:items-center">
+          <section className="flex min-w-0 flex-col items-center text-center md:items-start md:text-left">
             <p className="mb-4 inline-flex rounded-full border border-primary/20 bg-primary/8 px-3 py-1 text-xs font-semibold text-primary">
               Columbus mutual aid
             </p>
@@ -51,19 +43,19 @@ export default async function LoginPage({
               width={520}
               height={320}
               priority
-              className="mb-6 h-auto w-72 object-contain md:w-104"
+              className="mb-4 h-auto w-56 object-contain md:mb-6 md:w-104"
             />
 
             {/* Hero copy */}
-            <h1 className="mb-4 max-w-xl text-4xl font-semibold text-foreground md:text-5xl">
+            <h1 className="mb-2 max-w-xl text-2xl font-semibold text-foreground md:mb-4 md:text-5xl">
               Local support, right when it is needed.
             </h1>
-            <p className="max-w-lg text-base leading-relaxed text-foreground/80 md:text-lg">
+            <p className="hidden max-w-lg text-base leading-relaxed text-foreground/80 md:block md:text-lg">
               Common Table is where neighbors share resources, ask for help, and respond
               with care. Professional enough to trust, human enough to feel like home.
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-2.5">
+            <div className="mt-6 hidden flex-wrap gap-2.5 md:flex">
               {['Give', 'Ask', 'Help'].map((word) => (
                 <span
                   key={word}
@@ -76,7 +68,7 @@ export default async function LoginPage({
           </section>
 
           {/* Sign in card */}
-          <section className="rounded-2xl border border-border bg-card p-6 md:p-7">
+          <section className="min-w-0 rounded-2xl border border-transparent bg-transparent p-5 md:border-border md:bg-card md:p-7">
             <h2 className="mb-1 text-lg font-semibold text-foreground">
               Join your neighborhood
             </h2>
