@@ -16,37 +16,78 @@ type SearchParams = Promise<{ q?: string; type?: string }>
 async function PostsFeed({ q, type }: { q: string; type: string }) {
   const supabase = await createClient()
 
-  let query = supabase
-    .from('posts')
-    .select(`
-      *,
-      author:profiles(id, display_name, avatar_url, neighborhood_id),
-      neighborhood:neighborhoods(id, name)
-    `)
-    .order('created_at', { ascending: false })
-    .limit(50)
+  // Get user's home neighborhood for prioritization
+  const { data: { user } } = await supabase.auth.getUser()
+  let homeNeighborhoodId: string | null = null
 
-  if (type === 'GIVE' || type === 'NEED') {
-    query = query.eq('type', type)
+  if (user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('neighborhood_id')
+      .eq('id', user.id)
+      .single()
+    homeNeighborhoodId = profile?.neighborhood_id ?? null
   }
 
-  if (q) {
-    query = query.or(`title.ilike.%${q}%,description.ilike.%${q}%`)
-  }
+  const selectClause = `
+    *,
+    author:profiles(id, display_name, avatar_url, neighborhood_id),
+    neighborhood:neighborhoods(id, name)
+  `
 
-  const { data: posts, error } = await query
+  let posts: Post[] = []
 
-  if (error) {
-    return (
-      <div className="rounded-2xl bg-destructive/10 p-4 text-sm text-destructive" role="alert">
-        Could not load posts. Please refresh to try again.
-      </div>
-    )
+  if (homeNeighborhoodId && !q && !type) {
+    // Prioritize: home neighborhood first, then everything else
+    const [localResult, otherResult] = await Promise.all([
+      supabase
+        .from('posts')
+        .select(selectClause)
+        .eq('neighborhood_id', homeNeighborhoodId)
+        .order('created_at', { ascending: false })
+        .limit(25),
+      supabase
+        .from('posts')
+        .select(selectClause)
+        .or(`neighborhood_id.neq.${homeNeighborhoodId},neighborhood_id.is.null`)
+        .order('created_at', { ascending: false })
+        .limit(25),
+    ])
+    posts = [
+      ...((localResult.data ?? []) as unknown as Post[]),
+      ...((otherResult.data ?? []) as unknown as Post[]),
+    ]
+  } else {
+    // Search/filter active — single sorted query, no prioritization
+    let query = supabase
+      .from('posts')
+      .select(selectClause)
+      .order('created_at', { ascending: false })
+      .limit(50)
+
+    if (type === 'GIVE' || type === 'NEED') {
+      query = query.eq('type', type)
+    }
+    if (q) {
+      query = query.or(`title.ilike.%${q}%,description.ilike.%${q}%`)
+    }
+
+    const { data, error } = await query
+
+    if (error) {
+      return (
+        <div className="rounded-2xl bg-destructive/10 p-4 text-sm text-destructive" role="alert">
+          Could not load posts. Please refresh to try again.
+        </div>
+      )
+    }
+    posts = (data ?? []) as unknown as Post[]
   }
 
   return (
     <FeedList
-      posts={(posts as unknown as Post[]) ?? []}
+      posts={posts}
+      homeNeighborhoodId={homeNeighborhoodId}
       emptyMessage={
         q || type
           ? 'No posts match your search. Try different words or clear the filter.'
@@ -75,11 +116,7 @@ function FeedSkeleton() {
   )
 }
 
-export default async function FeedPage({
-  searchParams,
-}: {
-  searchParams: SearchParams
-}) {
+export default async function FeedPage({ searchParams }: { searchParams: SearchParams }) {
   const { q = '', type = '' } = await searchParams
 
   return (

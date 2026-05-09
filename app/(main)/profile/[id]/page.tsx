@@ -7,8 +7,9 @@ import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials, formatDistanceToNow } from '@/lib/utils'
-import type { Profile, Post, Endorsement } from '@/lib/supabase/types'
+import type { Profile, Post, Endorsement, Neighborhood } from '@/lib/supabase/types'
 import { LogoutButton } from '@/components/shared/LogoutButton'
+import { NeighborhoodUpdateForm } from '@/components/profile/NeighborhoodUpdateForm'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -26,7 +27,7 @@ export default async function PublicProfilePage({
   const { id } = await params
   const supabase = await createClient()
 
-  const [profileResult, postsResult, endorsementsResult, authResult] = await Promise.all([
+  const [profileResult, postsResult, endorsementsResult, authResult, neighborhoodsResult] = await Promise.all([
     supabase
       .from('profiles')
       .select(`*, neighborhood:neighborhoods(id, name)`)
@@ -44,6 +45,7 @@ export default async function PublicProfilePage({
       .eq('endorsed_id', id)
       .order('created_at', { ascending: false }),
     supabase.auth.getUser(),
+    supabase.from('neighborhoods').select('*').order('name'),
   ])
 
   if (profileResult.error || !profileResult.data) {
@@ -53,6 +55,7 @@ export default async function PublicProfilePage({
   const profile = profileResult.data as unknown as Profile
   const posts = (postsResult.data ?? []) as unknown as Post[]
   const endorsements = (endorsementsResult.data ?? []) as unknown as Endorsement[]
+  const neighborhoods = (neighborhoodsResult.data ?? []) as Neighborhood[]
   const currentUser = authResult.data.user
   const isOwnProfile = currentUser?.id === id
   const hasEndorsed = endorsements.some((e) => e.endorser_id === currentUser?.id)
@@ -73,6 +76,20 @@ export default async function PublicProfilePage({
         endorsementCount={endorsements.length}
         postCount={posts.length}
       />
+
+      {/* Neighborhood setting — own profile only */}
+      {isOwnProfile && (
+        <div className="bg-card rounded-2xl border border-border px-5 py-4">
+          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3">
+            Your neighborhood
+          </h2>
+          <NeighborhoodUpdateForm
+            userId={id}
+            currentNeighborhoodId={profile.neighborhood_id}
+            neighborhoods={neighborhoods}
+          />
+        </div>
+      )}
 
       {/* Endorse button */}
       {currentUser && !isOwnProfile && !hasEndorsed && (
