@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials, formatDistanceToNow } from '@/lib/utils'
 import type { Profile, Post, Endorsement } from '@/lib/supabase/types'
+import { LogoutButton } from '@/components/shared/LogoutButton'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -134,6 +135,13 @@ export default async function PublicProfilePage({
             ))}
           </div>
         </section>
+      )}
+
+      {/* Sign out — own profile only */}
+      {isOwnProfile && (
+        <div className="pt-4 pb-2 flex justify-center border-t border-border">
+          <LogoutButton />
+        </div>
       )}
     </div>
   )
