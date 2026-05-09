@@ -357,10 +357,10 @@ Has a `UNIQUE(endorser_id, endorsed_id)` constraint — one endorsement per pair
 
 # Required — from Supabase Dashboard → Settings → API
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_your-key-here
 ```
 
-Both are prefixed `NEXT_PUBLIC_` because they're used in client-side code (browser Supabase client). The anon key is safe to expose publicly — it's scoped to the RLS policies defined in the database. Never put your `service_role` key in the app.
+Both are prefixed `NEXT_PUBLIC_` because they're used in client-side code (browser Supabase client). The publishable key (`sb_publishable_...`) is safe to expose publicly — it's scoped to the RLS policies defined in the database. Never put your `service_role` key in the app.
 
 **Never commit `.env.local`.** It's in `.gitignore`. The `.env.local.example` file shows the shape without real values.
 
