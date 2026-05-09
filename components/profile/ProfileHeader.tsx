@@ -1,7 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials } from '@/lib/utils'
 import type { Profile } from '@/lib/supabase/types'
-import { Heart, MessageCircle } from 'lucide-react'
 
 interface ProfileHeaderProps {
   profile: Profile
@@ -40,19 +39,17 @@ export function ProfileHeader({ profile, endorsementCount, postCount }: ProfileH
       {/* Trust stats */}
       <div className="flex items-center gap-4 mt-4 pt-4 border-t border-border">
         {profile.neighbors_helped_count > 0 && (
-          <div className="flex items-center gap-1.5 text-sm">
-            <Heart className="h-4 w-4 text-give" aria-hidden="true" />
+          <div className="text-sm">
             <span className="font-semibold text-foreground">{profile.neighbors_helped_count}</span>
-            <span className="text-muted-foreground">
+            <span className="text-muted-foreground ml-1">
               neighbor{profile.neighbors_helped_count !== 1 ? 's' : ''} helped
             </span>
           </div>
         )}
         {endorsementCount > 0 && (
-          <div className="flex items-center gap-1.5 text-sm">
-            <MessageCircle className="h-4 w-4 text-primary" aria-hidden="true" />
+          <div className="text-sm">
             <span className="font-semibold text-foreground">{endorsementCount}</span>
-            <span className="text-muted-foreground">
+            <span className="text-muted-foreground ml-1">
               endorsement{endorsementCount !== 1 ? 's' : ''}
             </span>
           </div>

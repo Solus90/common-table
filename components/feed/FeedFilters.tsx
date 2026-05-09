@@ -100,7 +100,7 @@ export function FeedFilters() {
             onClick={() => updateParams({ type: option.value })}
             aria-pressed={type === option.value}
             className={cn(
-              'h-8 px-4 rounded-full text-sm font-medium border transition-all',
+              'h-8 px-4 rounded-full text-sm font-medium border transition-colors',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
               type === option.value
                 ? option.value === 'GIVE'
@@ -108,7 +108,7 @@ export function FeedFilters() {
                   : option.value === 'NEED'
                     ? 'bg-need border-need text-need-foreground'
                     : 'bg-foreground border-foreground text-background'
-                : 'bg-card border-border text-muted-foreground hover:text-foreground hover:border-muted-foreground'
+                : 'bg-transparent border-border text-muted-foreground hover:text-foreground'
             )}
           >
             {option.label}

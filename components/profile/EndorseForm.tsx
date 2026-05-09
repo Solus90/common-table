@@ -95,7 +95,7 @@ export function EndorseForm({ endorsedId, endorsedName, currentUserId }: Endorse
               className="rounded-xl resize-none"
               aria-required="true"
             />
-            <div className="text-xs text-muted-foreground text-right" aria-live="polite">
+            <div className="text-xs text-muted-foreground text-right" aria-hidden="true">
               {content.length}/200
             </div>
           </div>

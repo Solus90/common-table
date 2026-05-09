@@ -18,7 +18,7 @@ export function PostCard({ post }: PostCardProps) {
     .toUpperCase() ?? '??'
 
   return (
-    <article className="bg-card rounded-2xl border border-border shadow-sm hover:shadow-md transition-shadow">
+    <article className="bg-card rounded-2xl border border-border">
       <Link
         href={`/post/${post.id}`}
         className="block p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-2xl"

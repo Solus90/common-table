@@ -102,7 +102,7 @@ export function NewPostForm({ neighborhoods, userId, defaultNeighborhoodId }: Ne
           className="rounded-xl"
           aria-required="true"
         />
-        <div className="text-xs text-muted-foreground text-right" aria-live="polite">
+        <div className="text-xs text-muted-foreground text-right" aria-hidden="true">
           {title.length}/120
         </div>
       </div>
@@ -123,7 +123,7 @@ export function NewPostForm({ neighborhoods, userId, defaultNeighborhoodId }: Ne
           className="rounded-xl resize-none"
           aria-required="true"
         />
-        <div className="text-xs text-muted-foreground text-right" aria-live="polite">
+        <div className="text-xs text-muted-foreground text-right" aria-hidden="true">
           {description.length}/1000
         </div>
       </div>

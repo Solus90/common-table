@@ -132,7 +132,7 @@ export function OfferHelpForm({ postId, userId, postTitle }: OfferHelpFormProps)
               className="rounded-xl resize-none"
               aria-required="true"
             />
-            <div className="text-xs text-muted-foreground text-right" aria-live="polite">
+            <div className="text-xs text-muted-foreground text-right" aria-hidden="true">
               {message.length}/500
             </div>
           </div>
