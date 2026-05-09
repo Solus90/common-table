@@ -5,6 +5,7 @@ import './globals.css'
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 const siteName = 'Common Table'
 const siteDescription = 'Hyperlocal mutual aid for your neighborhood - share, give, and support one another.'
+const socialImage = '/icon.png'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,11 +34,18 @@ export const metadata: Metadata = {
     description: siteDescription,
     siteName,
     url: '/',
+    images: [
+      {
+        url: socialImage,
+        alt: `${siteName} logo`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: siteName,
     description: siteDescription,
+    images: [socialImage],
   },
   manifest: '/manifest.json',
   appleWebApp: {
