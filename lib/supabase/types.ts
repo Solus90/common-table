@@ -17,6 +17,7 @@ export interface Profile {
   display_name: string
   avatar_url: string | null
   bio: string | null
+  email: string | null
   neighborhood_id: string | null
   neighbors_helped_count: number
   created_at: string
@@ -49,6 +50,15 @@ export interface Offer {
   status: OfferStatus
   created_at: string
   author?: Profile | null
+}
+
+export interface Comment {
+  id: string
+  post_id: string
+  author_id: string
+  content: string
+  created_at: string
+  author?: Pick<Profile, 'id' | 'display_name' | 'avatar_url'> | null
 }
 
 export interface Endorsement {
