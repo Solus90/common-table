@@ -594,3 +594,10 @@ Any Node.js host that supports Next.js App Router will work (Railway, Render, Fl
 - **Moderation** — no flagging or admin tools exist. Add a `flagged` boolean to posts and an admin role to profiles.
 - **Notifications** — no push notifications. Supabase Edge Functions can send web push or email when someone offers to help your post.
 - **Multiple cities** — the app currently shows all posts globally (or can be filtered by neighborhood). For a true multi-city deployment, add a city-level filter layer.
+
+---
+
+## License
+
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0-only).
+See `LICENSE` for the full text.
