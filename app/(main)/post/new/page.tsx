@@ -4,9 +4,15 @@ import { NewPostForm } from '@/components/post/NewPostForm'
 import type { Neighborhood } from '@/lib/supabase/types'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 
-export const metadata = {
-  title: 'New Post — Common Table',
+export const metadata: Metadata = {
+  title: 'Create Post',
+  description: 'Share an offer or request with your neighborhood on Common Table.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default async function NewPostPage() {

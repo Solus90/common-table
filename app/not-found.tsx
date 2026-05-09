@@ -1,14 +1,28 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Page Not Found',
+  description: 'The page you were looking for could not be found on Common Table.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 text-center">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="min-h-screen flex flex-col items-center justify-center bg-background px-6 text-center"
+    >
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-6">
           <Image
             src="/logo.png"
-            alt="Common Table"
+            alt="Common Table logo"
             width={100}
             height={100}
             className="w-24 h-24 object-contain opacity-60"
@@ -19,7 +33,7 @@ export default function NotFound() {
           Page not found
         </h1>
         <p className="text-sm text-muted-foreground leading-relaxed mb-8">
-          This page doesn't exist or may have been moved.
+          This page doesn&apos;t exist or may have been moved.
           The table is still set — head back to the feed.
         </p>
 
@@ -30,6 +44,6 @@ export default function NotFound() {
           Go to feed
         </Link>
       </div>
-    </div>
+    </main>
   )
 }

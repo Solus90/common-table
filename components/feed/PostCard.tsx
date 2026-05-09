@@ -49,7 +49,7 @@ export function PostCard({ post }: PostCardProps) {
           <div className="relative aspect-video w-full rounded-xl overflow-hidden mb-3 bg-muted">
             <Image
               src={post.image_url}
-              alt=""
+              alt={`Image for post: ${post.title}`}
               fill
               className="object-cover"
               sizes="(max-width: 672px) 100vw, 672px"

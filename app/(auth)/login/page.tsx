@@ -2,6 +2,16 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { LoginForm } from './login-form'
 import Image from 'next/image'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Log In',
+  description: 'Sign in to Common Table to share resources, ask for help, and connect with neighbors in your local community.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default async function LoginPage({
   searchParams,
@@ -18,7 +28,7 @@ export default async function LoginPage({
   const { next, error } = await searchParams
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <main id="main-content" tabIndex={-1} className="min-h-screen flex flex-col bg-background">
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">
 
@@ -26,7 +36,7 @@ export default async function LoginPage({
           <div className="flex justify-center mb-6">
             <Image
               src="/logo.png"
-              alt="Common Table"
+              alt="Common Table logo"
               width={160}
               height={160}
               priority
@@ -77,6 +87,6 @@ export default async function LoginPage({
 
         </div>
       </div>
-    </div>
+    </main>
   )
 }

@@ -31,7 +31,7 @@ export function BottomNav() {
               <li key={href}>
                 <Link
                   href={href}
-                  aria-label={label}
+                  aria-label={`Go to ${label}`}
                   aria-current={isActive ? 'page' : undefined}
                   className={cn(
                     'flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-colors',

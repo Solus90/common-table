@@ -1,9 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { NeighborCard } from '@/components/community/NeighborCard'
 import type { Profile } from '@/lib/supabase/types'
+import type { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Community — Common Table',
+export const metadata: Metadata = {
+  title: 'Community Neighbors',
+  description: 'Meet neighbors in Common Table and discover people actively helping others in your area.',
+  alternates: {
+    canonical: '/community',
+  },
 }
 
 export default async function CommunityPage() {

@@ -81,7 +81,7 @@ export function OfferHelpForm({ postId, userId, postTitle }: OfferHelpFormProps)
         <SheetHeader className="text-left mb-5">
           <SheetTitle className="text-base">Offer your help</SheetTitle>
           <SheetDescription className="text-sm text-muted-foreground leading-relaxed">
-            Responding to: <span className="font-medium text-foreground">"{postTitle}"</span>
+            Responding to: <span className="font-medium text-foreground">&ldquo;{postTitle}&rdquo;</span>
           </SheetDescription>
         </SheetHeader>
 

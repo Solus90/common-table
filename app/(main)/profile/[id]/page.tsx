@@ -10,13 +10,47 @@ import { getInitials, formatDistanceToNow } from '@/lib/utils'
 import type { Profile, Post, Endorsement, Neighborhood } from '@/lib/supabase/types'
 import { LogoutButton } from '@/components/shared/LogoutButton'
 import { NeighborhoodUpdateForm } from '@/components/profile/NeighborhoodUpdateForm'
+import type { Metadata } from 'next'
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const supabase = await createClient()
-  const { data } = await supabase.from('profiles').select('display_name').eq('id', id).single()
-  if (!data) return { title: 'Profile — Common Table' }
-  return { title: `${data.display_name} — Common Table` }
+  const { data } = await supabase
+    .from('profiles')
+    .select('display_name, bio')
+    .eq('id', id)
+    .single()
+  if (!data) {
+    return {
+      title: 'Neighbor Profile',
+      description: 'View a neighbor profile on Common Table.',
+    }
+  }
+
+  const title = `${data.display_name} profile`
+  const description = data.bio
+    ? data.bio.slice(0, 160)
+    : `View ${data.display_name}'s profile, endorsements, and recent neighborhood posts on Common Table.`
+  const canonicalPath = `/profile/${id}`
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalPath,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalPath,
+      type: 'profile',
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
+  }
 }
 
 export default async function PublicProfilePage({
@@ -115,7 +149,7 @@ export default async function PublicProfilePage({
                 className="bg-card rounded-2xl border border-border p-4"
               >
                 <p className="text-sm text-foreground/80 leading-relaxed mb-3">
-                  "{endorsement.content}"
+                  &ldquo;{endorsement.content}&rdquo;
                 </p>
                 <footer className="flex items-center gap-2">
                   <Avatar className="h-6 w-6 shrink-0">

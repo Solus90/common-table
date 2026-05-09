@@ -3,9 +3,15 @@ import { redirect } from 'next/navigation'
 import { NeighborhoodForm } from './neighborhood-form'
 import Image from 'next/image'
 import type { Neighborhood } from '@/lib/supabase/types'
+import type { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Welcome — Common Table',
+export const metadata: Metadata = {
+  title: 'Neighborhood Setup',
+  description: 'Choose your neighborhood on Common Table so local requests and offers appear first in your feed.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default async function OnboardingPage({
@@ -36,12 +42,16 @@ export default async function OnboardingPage({
   const firstName = profile?.display_name?.split(' ')[0] ?? 'neighbor'
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 py-12">
+    <main
+      id="main-content"
+      tabIndex={-1}
+      className="min-h-screen flex flex-col items-center justify-center bg-background px-6 py-12"
+    >
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-6">
           <Image
             src="/logo.png"
-            alt="Common Table"
+            alt="Common Table logo"
             width={120}
             height={120}
             priority
@@ -54,7 +64,7 @@ export default async function OnboardingPage({
             Welcome, {firstName}.
           </h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Where in Columbus do you call home? We'll show you posts from
+            Where in Columbus do you call home? We&apos;ll show you posts from
             your neighborhood first.
           </p>
         </div>
@@ -74,6 +84,6 @@ export default async function OnboardingPage({
           You can change this anytime from your profile.
         </p>
       </div>
-    </div>
+    </main>
   )
 }

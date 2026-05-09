@@ -6,9 +6,14 @@ import { Suspense } from 'react'
 import type { Post } from '@/lib/supabase/types'
 import Link from 'next/link'
 import { PlusCircle } from 'lucide-react'
+import type { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Feed — Common Table',
+export const metadata: Metadata = {
+  title: 'Community Feed',
+  description: 'Browse nearby mutual aid posts, search by need or offer, and connect with neighbors in your community.',
+  alternates: {
+    canonical: '/feed',
+  },
 }
 
 type SearchParams = Promise<{ q?: string; type?: string }>

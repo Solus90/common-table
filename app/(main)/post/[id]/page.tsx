@@ -12,13 +12,45 @@ import { DeletePostButton } from '@/components/post/DeletePostButton'
 import { ArrowLeft, Mail } from 'lucide-react'
 import { formatDistanceToNow, getInitials } from '@/lib/utils'
 import type { Post, Offer, Comment, Profile } from '@/lib/supabase/types'
+import type { Metadata } from 'next'
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const supabase = await createClient()
-  const { data } = await supabase.from('posts').select('title, type').eq('id', id).single()
-  if (!data) return { title: 'Post — Common Table' }
-  return { title: `${data.type === 'GIVE' ? 'Giving' : 'Need'}: ${data.title} — Common Table` }
+  const { data } = await supabase
+    .from('posts')
+    .select('title, description, type')
+    .eq('id', id)
+    .single()
+  if (!data) {
+    return {
+      title: 'Post',
+      description: 'View a neighborhood mutual aid post on Common Table.',
+    }
+  }
+  const postType = data.type === 'GIVE' ? 'Giving' : 'Need'
+  const title = `${postType}: ${data.title}`
+  const description = data.description.slice(0, 160)
+  const canonicalPath = `/post/${id}`
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalPath,
+    },
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      url: canonicalPath,
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
+  }
 }
 
 export default async function PostDetailPage({
@@ -109,7 +141,13 @@ export default async function PostDetailPage({
 
         {post.image_url && (
           <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-muted">
-            <Image src={post.image_url} alt="" fill className="object-cover" sizes="(max-width: 672px) 100vw, 672px" />
+            <Image
+              src={post.image_url}
+              alt={`Image for post: ${post.title}`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 672px) 100vw, 672px"
+            />
           </div>
         )}
 
